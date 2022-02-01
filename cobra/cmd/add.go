@@ -18,7 +18,7 @@ import (
 	"os"
 	"unicode"
 
-	"github.com/spf13/cobra"
+	cobra "github.com/muesli/coral"
 )
 
 var (

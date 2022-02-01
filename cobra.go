@@ -14,7 +14,7 @@
 // Commands similar to git, go tools and other modern CLI tools
 // inspired by go, go-Commander, gh and subcommand
 
-package cobra
+package coral
 
 import (
 	"fmt"

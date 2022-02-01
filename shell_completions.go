@@ -1,4 +1,4 @@
-package cobra
+package coral
 
 import (
 	"github.com/spf13/pflag"

@@ -1,3 +1,66 @@
+# Coral Preamble
+
+I love [Cobra](https://github.com/spf13/cobra) and I love [Viper](https://github.com/spf13/viper).
+They are great projects, incredibly useful and outstandingly important for the
+Go community. But sometimes, just sometimes, don't you wish you could use Cobra
+without the entire dependency chain Viper drags in?
+
+This is what `Coral` is: a Cobra fork without any of the Viper dependencies and
+features. This will hopefully be a soft fork with only the minimal changes
+required to decouple Viper from Cobra. The aim is to follow upstream Cobra
+development as closely as possible.
+
+Coral has only four direct dependencies:
+
+- github.com/spf13/pflag
+- github.com/cpuguy83/go-md2man/v2
+- github.com/inconshreveable/mousetrap
+- gopkg.in/yaml.v2
+
+# Migrating existing projects to Coral
+
+## The easy hack
+
+You can try out Coral as a drop-in replacement for Cobra in existing projects
+without changing a single line of code:
+
+```bash
+go mod edit -replace github.com/spf13/cobra=github.com/muesli/coral@866ac394b1f8f01ca411feaa030ee6807b910a8e
+go mod tidy
+```
+
+As a result, you should typically see a lot of indirect dependencies removed
+from the project's `go.mod` and `go.sum` files.
+
+Alternatively you can manually edit your project's `go.mod` and add a `replace` directive at the bottom.
+
+## Proper integration
+
+Edit your project, find-and-replace all `github.com/spf13/cobra` imports with
+an aliased `github.com/muesli/coral` import:
+
+Before:
+
+```go
+// old import:
+import (
+    "github.com/spf13/cobra"
+    ...
+)
+
+// new import:
+import (
+    cobra "github.com/muesli/coral"
+    ...
+)
+```
+
+By aliasing the Coral import as `cobra` you don't need to change the rest of
+your code. It should build and run as before. If you don't like using an alias
+you can also rename all references of `cobra` to `coral`, of course.
+
+# Upstream Cobra README
+
 ![cobra logo](https://cloud.githubusercontent.com/assets/173412/10886352/ad566232-814f-11e5-9cd0-aa101788c117.png)
 
 Cobra is both a library for creating powerful modern CLI applications as well as a program to generate applications and command files.

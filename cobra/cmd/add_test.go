@@ -1,13 +1,10 @@
 package cmd
 
 import (
-	"fmt"
-	"os"
 	"testing"
-
-	"github.com/spf13/viper"
 )
 
+/*
 func TestGoldenAddCmd(t *testing.T) {
 	viper.Set("useViper", true)
 	viper.Set("license", "apache")
@@ -28,6 +25,7 @@ func TestGoldenAddCmd(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+*/
 
 func TestValidateCmdName(t *testing.T) {
 	testCases := []struct {

@@ -20,8 +20,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
+	cobra "github.com/muesli/coral"
 )
 
 // Licenses contains all possible licenses a user can choose from.
@@ -63,24 +62,26 @@ func getLicense() License {
 	}
 
 	// If user wants to have custom license, use that.
-	if viper.IsSet("license.header") || viper.IsSet("license.text") {
-		return License{Header: viper.GetString("license.header"),
-			Text: viper.GetString("license.text")}
-	}
+	/*
+		if viper.IsSet("license.header") || viper.IsSet("license.text") {
+			return License{Header: viper.GetString("license.header"),
+				Text: viper.GetString("license.text")}
+		}
 
-	// If user wants to have built-in license, use that.
-	if viper.IsSet("license") {
-		return findLicense(viper.GetString("license"))
-	}
+		// If user wants to have built-in license, use that.
+		if viper.IsSet("license") {
+			return findLicense(viper.GetString("license"))
+		}
+	*/
 
 	// If user didn't set any license, use none by default
 	return Licenses["none"]
 }
 
 func copyrightLine() string {
-	author := viper.GetString("author")
+	author := "" // viper.GetString("author")
 
-	year := viper.GetString("year") // For tests.
+	year := "" // viper.GetString("year") // For tests.
 	if year == "" {
 		year = time.Now().Format("2006")
 	}

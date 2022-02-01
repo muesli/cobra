@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/spf13/cobra"
+	cobra "github.com/muesli/coral"
 )
 
 func assertNoErr(t *testing.T, e error) {

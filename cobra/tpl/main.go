@@ -36,18 +36,10 @@ func RootTemplate() []byte {
 package cmd
 
 import (
-{{- if .Viper }}
-	"fmt"{{ end }}
 	"os"
 
-	"github.com/spf13/cobra"
-{{- if .Viper }}
-	"github.com/spf13/viper"{{ end }}
+	"github.com/muesli/coral"
 )
-
-{{ if .Viper -}}
-var cfgFile string
-{{- end }}
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -74,47 +66,14 @@ func Execute() {
 }
 
 func init() {
-{{- if .Viper }}
-	cobra.OnInitialize(initConfig)
-{{ end }}
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
-{{ if .Viper }}
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.{{ .AppName }}.yaml)")
-{{ else }}
 	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.{{ .AppName }}.yaml)")
-{{ end }}
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
-
-{{ if .Viper -}}
-// initConfig reads in config file and ENV variables if set.
-func initConfig() {
-	if cfgFile != "" {
-		// Use config file from the flag.
-		viper.SetConfigFile(cfgFile)
-	} else {
-		// Find home directory.
-		home, err := os.UserHomeDir()
-		cobra.CheckErr(err)
-
-		// Search config in home directory with name ".{{ .AppName }}" (without extension).
-		viper.AddConfigPath(home)
-		viper.SetConfigType("yaml")
-		viper.SetConfigName(".{{ .AppName }}")
-	}
-
-	viper.AutomaticEnv() // read in environment variables that match
-
-	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
-		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
-	}
-}
-{{- end }}
 `)
 }
 
@@ -128,7 +87,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/spf13/cobra"
+	cobra "github.com/muesli/coral"
 )
 
 // {{ .CmdName }}Cmd represents the {{ .CmdName }} command

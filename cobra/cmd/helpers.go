@@ -19,7 +19,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/spf13/cobra"
+	cobra "github.com/muesli/coral"
 )
 
 var srcPaths []string

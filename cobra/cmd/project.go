@@ -5,8 +5,8 @@ import (
 	"os"
 	"text/template"
 
-	"github.com/spf13/cobra"
-	"github.com/spf13/cobra/cobra/tpl"
+	cobra "github.com/muesli/coral"
+	"github.com/muesli/coral/cobra/tpl"
 )
 
 // Project contains name, license and paths to projects.
@@ -16,8 +16,8 @@ type Project struct {
 	Copyright    string
 	AbsolutePath string
 	Legal        License
-	Viper        bool
-	AppName      string
+	// Viper        bool
+	AppName string
 }
 
 type Command struct {

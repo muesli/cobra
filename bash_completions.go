@@ -1,4 +1,4 @@
-package cobra
+package coral
 
 import (
 	"bytes"

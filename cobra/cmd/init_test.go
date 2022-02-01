@@ -6,10 +6,9 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
-
-	"github.com/spf13/viper"
 )
 
+/*
 func getProject() *Project {
 	wd, _ := os.Getwd()
 	return &Project{
@@ -17,10 +16,11 @@ func getProject() *Project {
 		Legal:        getLicense(),
 		Copyright:    copyrightLine(),
 		AppName:      "cmd",
-		PkgName:      "github.com/spf13/cobra/cobra/cmd/cmd",
-		Viper:        true,
+		PkgName:      "github.com/muesli/coral/cobra/cmd/cmd",
+		// Viper:        true,
 	}
 }
+*/
 
 func TestGoldenInitCmd(t *testing.T) {
 
@@ -47,8 +47,10 @@ func TestGoldenInitCmd(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 
-			viper.Set("useViper", true)
-			viper.Set("license", "apache")
+			/*
+				viper.Set("useViper", true)
+				viper.Set("license", "apache")
+			*/
 			projectPath, err := initializeProject(tt.args)
 			defer func() {
 				if projectPath != "" {
@@ -68,7 +70,7 @@ func TestGoldenInitCmd(t *testing.T) {
 				}
 			}
 
-			expectedFiles := []string{"LICENSE", "main.go", "cmd/root.go"}
+			expectedFiles := []string{ /*"LICENSE",*/ "main.go", "cmd/root.go"}
 			for _, f := range expectedFiles {
 				generatedFile := fmt.Sprintf("%s/%s", projectPath, f)
 				goldenFile := fmt.Sprintf("testdata/%s.golden", filepath.Base(f))

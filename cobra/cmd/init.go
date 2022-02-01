@@ -22,8 +22,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
+	cobra "github.com/muesli/coral"
 )
 
 var (
@@ -40,10 +39,12 @@ Cobra init must be run inside of a go module (please run "go mod init <MODNAME>"
 		Run: func(_ *cobra.Command, args []string) {
 			projectPath, err := initializeProject(args)
 			cobra.CheckErr(err)
-			cobra.CheckErr(goGet("github.com/spf13/cobra"))
-			if viper.GetBool("useViper") {
-				cobra.CheckErr(goGet("github.com/spf13/viper"))
-			}
+			cobra.CheckErr(goGet("github.com/muesli/coral"))
+			/*
+				if viper.GetBool("useViper") {
+					cobra.CheckErr(goGet("github.com/spf13/viper"))
+				}
+			*/
 			fmt.Printf("Your Cobra application is ready at\n%s\n", projectPath)
 		},
 	}
@@ -68,8 +69,8 @@ func initializeProject(args []string) (string, error) {
 		PkgName:      modName,
 		Legal:        getLicense(),
 		Copyright:    copyrightLine(),
-		Viper:        viper.GetBool("useViper"),
-		AppName:      path.Base(modName),
+		// Viper:        viper.GetBool("useViper"),
+		AppName: path.Base(modName),
 	}
 
 	if err := project.Create(); err != nil {

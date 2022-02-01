@@ -16,7 +16,7 @@ package doc
 import (
 	"strings"
 
-	"github.com/spf13/cobra"
+	cobra "github.com/muesli/coral"
 )
 
 // Test to see if we have a reason to print See Also information in docs

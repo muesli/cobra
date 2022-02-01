@@ -11,9 +11,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package cobra is a commander providing a simple interface to create powerful modern CLI interfaces.
+// Package coral is a commander providing a simple interface to create powerful modern CLI interfaces.
 // In addition to providing an interface, Cobra simultaneously provides a controller to organize your application code.
-package cobra
+package coral
 
 import (
 	"bytes"

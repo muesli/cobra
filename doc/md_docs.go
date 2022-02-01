@@ -23,7 +23,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/spf13/cobra"
+	cobra "github.com/muesli/coral"
 )
 
 func printOptions(buf *bytes.Buffer, cmd *cobra.Command, name string) error {
