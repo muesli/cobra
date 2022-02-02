@@ -25,7 +25,7 @@ You can try out Coral as a drop-in replacement for Cobra in existing projects
 without changing a single line of code:
 
 ```bash
-go mod edit -replace github.com/spf13/cobra=github.com/muesli/coral@866ac394b1f8f01ca411feaa030ee6807b910a8e
+go mod edit -replace github.com/spf13/cobra=github.com/muesli/coral@latest
 go mod tidy
 ```
 
