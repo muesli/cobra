@@ -36,28 +36,14 @@ Alternatively you can manually edit your project's `go.mod` and add a `replace` 
 
 ## Proper integration
 
-Edit your project, find-and-replace all `github.com/spf13/cobra` imports with
-an aliased `github.com/muesli/coral` import:
+You can let `gofmt` do most of the heavy lifting for you:
 
-Before:
-
-```go
-// old import:
-import (
-    "github.com/spf13/cobra"
-    ...
-)
-
-// new import:
-import (
-    "github.com/muesli/coral"
-    ...
-)
-```
-
-By aliasing the Coral import as `cobra` you don't need to change the rest of
-your code. It should build and run as before. If you don't like using an alias
-you can also rename all references of `cobra` to `coral`, of course.
+```sh
+ gofmt -w -r '"github.com/spf13/cobra" -> "github.com/muesli/coral"' .
+ gofmt -w -r '"github.com/spf13/cobra/doc" -> "github.com/muesli/coral/doc"' .
+ gofmt -w -r 'cobra -> coral' .
+ go mod tidy
+ ```
 
 # Upstream Cobra README
 
