@@ -25,7 +25,7 @@ import (
 	"time"
 
 	"github.com/cpuguy83/go-md2man/v2/md2man"
-	cobra "github.com/muesli/coral"
+	"github.com/muesli/coral"
 	"github.com/spf13/pflag"
 )
 
@@ -34,7 +34,7 @@ import (
 // correctly if your command names have `-` in them. If you have `cmd` with two
 // subcmds, `sub` and `sub-third`, and `sub` has a subcommand called `third`
 // it is undefined which help output will be in the file `cmd-sub-third.1`.
-func GenManTree(cmd *cobra.Command, header *GenManHeader, dir string) error {
+func GenManTree(cmd *coral.Command, header *GenManHeader, dir string) error {
 	return GenManTreeFromOpts(cmd, GenManTreeOptions{
 		Header:           header,
 		Path:             dir,
@@ -44,7 +44,7 @@ func GenManTree(cmd *cobra.Command, header *GenManHeader, dir string) error {
 
 // GenManTreeFromOpts generates a man page for the command and all descendants.
 // The pages are written to the opts.Path directory.
-func GenManTreeFromOpts(cmd *cobra.Command, opts GenManTreeOptions) error {
+func GenManTreeFromOpts(cmd *coral.Command, opts GenManTreeOptions) error {
 	header := opts.Header
 	if header == nil {
 		header = &GenManHeader{}
@@ -101,7 +101,7 @@ type GenManHeader struct {
 
 // GenMan will generate a man page for the given command and write it to
 // w. The header argument may be nil, however obviously w may not.
-func GenMan(cmd *cobra.Command, header *GenManHeader, w io.Writer) error {
+func GenMan(cmd *coral.Command, header *GenManHeader, w io.Writer) error {
 	if header == nil {
 		header = &GenManHeader{}
 	}
@@ -139,20 +139,20 @@ func fillHeader(header *GenManHeader, name string, disableAutoGen bool) error {
 	return nil
 }
 
-func manPreamble(buf io.StringWriter, header *GenManHeader, cmd *cobra.Command, dashedName string) {
+func manPreamble(buf io.StringWriter, header *GenManHeader, cmd *coral.Command, dashedName string) {
 	description := cmd.Long
 	if len(description) == 0 {
 		description = cmd.Short
 	}
 
-	cobra.WriteStringAndCheck(buf, fmt.Sprintf(`%% "%s" "%s" "%s" "%s" "%s"
+	coral.WriteStringAndCheck(buf, fmt.Sprintf(`%% "%s" "%s" "%s" "%s" "%s"
 # NAME
 `, header.Title, header.Section, header.date, header.Source, header.Manual))
-	cobra.WriteStringAndCheck(buf, fmt.Sprintf("%s \\- %s\n\n", dashedName, cmd.Short))
-	cobra.WriteStringAndCheck(buf, "# SYNOPSIS\n")
-	cobra.WriteStringAndCheck(buf, fmt.Sprintf("**%s**\n\n", cmd.UseLine()))
-	cobra.WriteStringAndCheck(buf, "# DESCRIPTION\n")
-	cobra.WriteStringAndCheck(buf, description+"\n\n")
+	coral.WriteStringAndCheck(buf, fmt.Sprintf("%s \\- %s\n\n", dashedName, cmd.Short))
+	coral.WriteStringAndCheck(buf, "# SYNOPSIS\n")
+	coral.WriteStringAndCheck(buf, fmt.Sprintf("**%s**\n\n", cmd.UseLine()))
+	coral.WriteStringAndCheck(buf, "# DESCRIPTION\n")
+	coral.WriteStringAndCheck(buf, description+"\n\n")
 }
 
 func manPrintFlags(buf io.StringWriter, flags *pflag.FlagSet) {
@@ -179,26 +179,26 @@ func manPrintFlags(buf io.StringWriter, flags *pflag.FlagSet) {
 			format += "]"
 		}
 		format += "\n\t%s\n\n"
-		cobra.WriteStringAndCheck(buf, fmt.Sprintf(format, flag.DefValue, flag.Usage))
+		coral.WriteStringAndCheck(buf, fmt.Sprintf(format, flag.DefValue, flag.Usage))
 	})
 }
 
-func manPrintOptions(buf io.StringWriter, command *cobra.Command) {
+func manPrintOptions(buf io.StringWriter, command *coral.Command) {
 	flags := command.NonInheritedFlags()
 	if flags.HasAvailableFlags() {
-		cobra.WriteStringAndCheck(buf, "# OPTIONS\n")
+		coral.WriteStringAndCheck(buf, "# OPTIONS\n")
 		manPrintFlags(buf, flags)
-		cobra.WriteStringAndCheck(buf, "\n")
+		coral.WriteStringAndCheck(buf, "\n")
 	}
 	flags = command.InheritedFlags()
 	if flags.HasAvailableFlags() {
-		cobra.WriteStringAndCheck(buf, "# OPTIONS INHERITED FROM PARENT COMMANDS\n")
+		coral.WriteStringAndCheck(buf, "# OPTIONS INHERITED FROM PARENT COMMANDS\n")
 		manPrintFlags(buf, flags)
-		cobra.WriteStringAndCheck(buf, "\n")
+		coral.WriteStringAndCheck(buf, "\n")
 	}
 }
 
-func genMan(cmd *cobra.Command, header *GenManHeader) []byte {
+func genMan(cmd *coral.Command, header *GenManHeader) []byte {
 	cmd.InitDefaultHelpCmd()
 	cmd.InitDefaultHelpFlag()
 
@@ -221,7 +221,7 @@ func genMan(cmd *cobra.Command, header *GenManHeader) []byte {
 			dashParentPath := strings.Replace(parentPath, " ", "-", -1)
 			seealso := fmt.Sprintf("**%s(%s)**", dashParentPath, header.Section)
 			seealsos = append(seealsos, seealso)
-			cmd.VisitParents(func(c *cobra.Command) {
+			cmd.VisitParents(func(c *coral.Command) {
 				if c.DisableAutoGenTag {
 					cmd.DisableAutoGenTag = c.DisableAutoGenTag
 				}

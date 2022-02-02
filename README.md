@@ -50,7 +50,7 @@ import (
 
 // new import:
 import (
-    cobra "github.com/muesli/coral"
+    "github.com/muesli/coral"
     ...
 )
 ```

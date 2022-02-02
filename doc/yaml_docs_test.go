@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	cobra "github.com/muesli/coral"
+	"github.com/muesli/coral"
 )
 
 func TestGenYamlDoc(t *testing.T) {
@@ -40,7 +40,7 @@ func TestGenYamlNoTag(t *testing.T) {
 }
 
 func TestGenYamlTree(t *testing.T) {
-	c := &cobra.Command{Use: "do [OPTIONS] arg1 arg2"}
+	c := &coral.Command{Use: "do [OPTIONS] arg1 arg2"}
 
 	tmpdir, err := ioutil.TempDir("", "test-gen-yaml-tree")
 	if err != nil {

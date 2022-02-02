@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	cobra "github.com/muesli/coral"
+	"github.com/muesli/coral"
 )
 
 func assertNoErr(t *testing.T, e error) {
@@ -112,10 +112,10 @@ func TestGenManNoGenTag(t *testing.T) {
 }
 
 func TestGenManSeeAlso(t *testing.T) {
-	rootCmd := &cobra.Command{Use: "root", Run: emptyRun}
-	aCmd := &cobra.Command{Use: "aaa", Run: emptyRun, Hidden: true} // #229
-	bCmd := &cobra.Command{Use: "bbb", Run: emptyRun}
-	cCmd := &cobra.Command{Use: "ccc", Run: emptyRun}
+	rootCmd := &coral.Command{Use: "root", Run: emptyRun}
+	aCmd := &coral.Command{Use: "aaa", Run: emptyRun, Hidden: true} // #229
+	bCmd := &coral.Command{Use: "bbb", Run: emptyRun}
+	cCmd := &coral.Command{Use: "ccc", Run: emptyRun}
 	rootCmd.AddCommand(aCmd, bCmd, cCmd)
 
 	buf := new(bytes.Buffer)
@@ -137,7 +137,7 @@ func TestGenManSeeAlso(t *testing.T) {
 }
 
 func TestManPrintFlagsHidesShortDeperecated(t *testing.T) {
-	c := &cobra.Command{}
+	c := &coral.Command{}
 	c.Flags().StringP("foo", "f", "default", "Foo flag")
 	assertNoErr(t, c.Flags().MarkShorthandDeprecated("foo", "don't use it no more"))
 
@@ -152,7 +152,7 @@ func TestManPrintFlagsHidesShortDeperecated(t *testing.T) {
 }
 
 func TestGenManTree(t *testing.T) {
-	c := &cobra.Command{Use: "do [OPTIONS] arg1 arg2"}
+	c := &coral.Command{Use: "do [OPTIONS] arg1 arg2"}
 	header := &GenManHeader{Section: "2"}
 	tmpdir, err := ioutil.TempDir("", "test-gen-man-tree")
 	if err != nil {

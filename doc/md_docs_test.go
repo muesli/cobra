@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	cobra "github.com/muesli/coral"
+	"github.com/muesli/coral"
 )
 
 func TestGenMdDoc(t *testing.T) {
@@ -79,7 +79,7 @@ func TestGenMdNoTag(t *testing.T) {
 }
 
 func TestGenMdTree(t *testing.T) {
-	c := &cobra.Command{Use: "do [OPTIONS] arg1 arg2"}
+	c := &coral.Command{Use: "do [OPTIONS] arg1 arg2"}
 	tmpdir, err := ioutil.TempDir("", "test-gen-md-tree")
 	if err != nil {
 		t.Fatalf("Failed to create tmpdir: %v", err)

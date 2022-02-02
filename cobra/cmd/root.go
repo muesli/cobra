@@ -14,7 +14,7 @@
 package cmd
 
 import (
-	cobra "github.com/muesli/coral"
+	"github.com/muesli/coral"
 )
 
 var (
@@ -22,7 +22,7 @@ var (
 	cfgFile     string
 	userLicense string
 
-	rootCmd = &cobra.Command{
+	rootCmd = &coral.Command{
 		Use:   "cobra",
 		Short: "A generator for Cobra based Applications",
 		Long: `Cobra is a CLI library for Go that empowers applications.
@@ -37,14 +37,14 @@ func Execute() error {
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
+	coral.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cobra.yaml)")
 	rootCmd.PersistentFlags().StringP("author", "a", "YOUR NAME", "author name for copyright attribution")
 	rootCmd.PersistentFlags().StringVarP(&userLicense, "license", "l", "", "name of license for the project")
 	// rootCmd.PersistentFlags().Bool("viper", false, "use Viper for configuration")
-	// cobra.CheckErr(viper.BindPFlag("author", rootCmd.PersistentFlags().Lookup("author")))
-	// cobra.CheckErr(viper.BindPFlag("useViper", rootCmd.PersistentFlags().Lookup("viper")))
+	// coral.CheckErr(viper.BindPFlag("author", rootCmd.PersistentFlags().Lookup("author")))
+	// coral.CheckErr(viper.BindPFlag("useViper", rootCmd.PersistentFlags().Lookup("viper")))
 	// viper.SetDefault("author", "NAME HERE <EMAIL ADDRESS>")
 	// viper.SetDefault("license", "none")
 
@@ -60,7 +60,7 @@ func initConfig() {
 		} else {
 			// Find home directory.
 			// home, err := os.UserHomeDir()
-			// cobra.CheckErr(err)
+			// coral.CheckErr(err)
 
 			// Search config in home directory with name ".cobra" (without extension).
 			// viper.AddConfigPath(home)

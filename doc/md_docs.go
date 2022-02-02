@@ -23,10 +23,10 @@ import (
 	"strings"
 	"time"
 
-	cobra "github.com/muesli/coral"
+	"github.com/muesli/coral"
 )
 
-func printOptions(buf *bytes.Buffer, cmd *cobra.Command, name string) error {
+func printOptions(buf *bytes.Buffer, cmd *coral.Command, name string) error {
 	flags := cmd.NonInheritedFlags()
 	flags.SetOutput(buf)
 	if flags.HasAvailableFlags() {
@@ -46,12 +46,12 @@ func printOptions(buf *bytes.Buffer, cmd *cobra.Command, name string) error {
 }
 
 // GenMarkdown creates markdown output.
-func GenMarkdown(cmd *cobra.Command, w io.Writer) error {
+func GenMarkdown(cmd *coral.Command, w io.Writer) error {
 	return GenMarkdownCustom(cmd, w, func(s string) string { return s })
 }
 
 // GenMarkdownCustom creates custom markdown output.
-func GenMarkdownCustom(cmd *cobra.Command, w io.Writer, linkHandler func(string) string) error {
+func GenMarkdownCustom(cmd *coral.Command, w io.Writer, linkHandler func(string) string) error {
 	cmd.InitDefaultHelpCmd()
 	cmd.InitDefaultHelpFlag()
 
@@ -85,7 +85,7 @@ func GenMarkdownCustom(cmd *cobra.Command, w io.Writer, linkHandler func(string)
 			link := pname + ".md"
 			link = strings.Replace(link, " ", "_", -1)
 			buf.WriteString(fmt.Sprintf("* [%s](%s)\t - %s\n", pname, linkHandler(link), parent.Short))
-			cmd.VisitParents(func(c *cobra.Command) {
+			cmd.VisitParents(func(c *coral.Command) {
 				if c.DisableAutoGenTag {
 					cmd.DisableAutoGenTag = c.DisableAutoGenTag
 				}
@@ -119,7 +119,7 @@ func GenMarkdownCustom(cmd *cobra.Command, w io.Writer, linkHandler func(string)
 // If you have `cmd` with two subcmds, `sub` and `sub-third`,
 // and `sub` has a subcommand called `third`, it is undefined which
 // help output will be in the file `cmd-sub-third.1`.
-func GenMarkdownTree(cmd *cobra.Command, dir string) error {
+func GenMarkdownTree(cmd *coral.Command, dir string) error {
 	identity := func(s string) string { return s }
 	emptyStr := func(s string) string { return "" }
 	return GenMarkdownTreeCustom(cmd, dir, emptyStr, identity)
@@ -127,7 +127,7 @@ func GenMarkdownTree(cmd *cobra.Command, dir string) error {
 
 // GenMarkdownTreeCustom is the the same as GenMarkdownTree, but
 // with custom filePrepender and linkHandler.
-func GenMarkdownTreeCustom(cmd *cobra.Command, dir string, filePrepender, linkHandler func(string) string) error {
+func GenMarkdownTreeCustom(cmd *coral.Command, dir string, filePrepender, linkHandler func(string) string) error {
 	for _, c := range cmd.Commands() {
 		if !c.IsAvailableCommand() || c.IsAdditionalHelpTopicCommand() {
 			continue

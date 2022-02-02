@@ -22,11 +22,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	cobra "github.com/muesli/coral"
+	"github.com/muesli/coral"
 )
 
 var (
-	initCmd = &cobra.Command{
+	initCmd = &coral.Command{
 		Use:     "init [path]",
 		Aliases: []string{"initialize", "initialise", "create"},
 		Short:   "Initialize a Cobra Application",
@@ -36,13 +36,13 @@ and the appropriate structure for a Cobra-based CLI application.
 Cobra init must be run inside of a go module (please run "go mod init <MODNAME>" first)
 `,
 
-		Run: func(_ *cobra.Command, args []string) {
+		Run: func(_ *coral.Command, args []string) {
 			projectPath, err := initializeProject(args)
-			cobra.CheckErr(err)
-			cobra.CheckErr(goGet("github.com/muesli/coral"))
+			coral.CheckErr(err)
+			coral.CheckErr(goGet("github.com/muesli/coral"))
 			/*
 				if viper.GetBool("useViper") {
-					cobra.CheckErr(goGet("github.com/spf13/viper"))
+					coral.CheckErr(goGet("github.com/spf13/viper"))
 				}
 			*/
 			fmt.Printf("Your Cobra application is ready at\n%s\n", projectPath)
@@ -95,15 +95,15 @@ func parseModInfo() (Mod, CurDir) {
 	var dir CurDir
 
 	m := modInfoJSON("-m")
-	cobra.CheckErr(json.Unmarshal(m, &mod))
+	coral.CheckErr(json.Unmarshal(m, &mod))
 
 	// Unsure why, but if no module is present Path is set to this string.
 	if mod.Path == "command-line-arguments" {
-		cobra.CheckErr("Please run `go mod init <MODNAME>` before `cobra init`")
+		coral.CheckErr("Please run `go mod init <MODNAME>` before `cobra init`")
 	}
 
 	e := modInfoJSON("-e")
-	cobra.CheckErr(json.Unmarshal(e, &dir))
+	coral.CheckErr(json.Unmarshal(e, &dir))
 
 	return mod, dir
 }
@@ -123,7 +123,7 @@ func goGet(mod string) error {
 func modInfoJSON(args ...string) []byte {
 	cmdArgs := append([]string{"list", "-json"}, args...)
 	out, err := exec.Command("go", cmdArgs...).Output()
-	cobra.CheckErr(err)
+	coral.CheckErr(err)
 
 	return out
 }

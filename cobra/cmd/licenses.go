@@ -20,7 +20,7 @@ import (
 	"strings"
 	"time"
 
-	cobra "github.com/muesli/coral"
+	"github.com/muesli/coral"
 )
 
 // Licenses contains all possible licenses a user can choose from.
@@ -95,7 +95,7 @@ func copyrightLine() string {
 func findLicense(name string) License {
 	found := matchLicense(name)
 	if found == "" {
-		cobra.CheckErr(fmt.Errorf("unknown license: " + name))
+		coral.CheckErr(fmt.Errorf("unknown license: " + name))
 	}
 	return Licenses[found]
 }

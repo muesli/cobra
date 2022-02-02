@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	cobra "github.com/muesli/coral"
+	"github.com/muesli/coral"
 )
 
 func TestGenRSTDoc(t *testing.T) {
@@ -65,7 +65,7 @@ func TestGenRSTNoTag(t *testing.T) {
 }
 
 func TestGenRSTTree(t *testing.T) {
-	c := &cobra.Command{Use: "do [OPTIONS] arg1 arg2"}
+	c := &coral.Command{Use: "do [OPTIONS] arg1 arg2"}
 
 	tmpdir, err := ioutil.TempDir("", "test-gen-rst-tree")
 	if err != nil {

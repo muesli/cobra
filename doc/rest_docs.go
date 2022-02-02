@@ -23,10 +23,10 @@ import (
 	"strings"
 	"time"
 
-	cobra "github.com/muesli/coral"
+	"github.com/muesli/coral"
 )
 
-func printOptionsReST(buf *bytes.Buffer, cmd *cobra.Command, name string) error {
+func printOptionsReST(buf *bytes.Buffer, cmd *coral.Command, name string) error {
 	flags := cmd.NonInheritedFlags()
 	flags.SetOutput(buf)
 	if flags.HasAvailableFlags() {
@@ -53,12 +53,12 @@ func defaultLinkHandler(name, ref string) string {
 }
 
 // GenReST creates reStructured Text output.
-func GenReST(cmd *cobra.Command, w io.Writer) error {
+func GenReST(cmd *coral.Command, w io.Writer) error {
 	return GenReSTCustom(cmd, w, defaultLinkHandler)
 }
 
 // GenReSTCustom creates custom reStructured Text output.
-func GenReSTCustom(cmd *cobra.Command, w io.Writer, linkHandler func(string, string) string) error {
+func GenReSTCustom(cmd *coral.Command, w io.Writer, linkHandler func(string, string) string) error {
 	cmd.InitDefaultHelpCmd()
 	cmd.InitDefaultHelpFlag()
 
@@ -101,7 +101,7 @@ func GenReSTCustom(cmd *cobra.Command, w io.Writer, linkHandler func(string, str
 			pname := parent.CommandPath()
 			ref = strings.Replace(pname, " ", "_", -1)
 			buf.WriteString(fmt.Sprintf("* %s \t - %s\n", linkHandler(pname, ref), parent.Short))
-			cmd.VisitParents(func(c *cobra.Command) {
+			cmd.VisitParents(func(c *coral.Command) {
 				if c.DisableAutoGenTag {
 					cmd.DisableAutoGenTag = c.DisableAutoGenTag
 				}
@@ -134,14 +134,14 @@ func GenReSTCustom(cmd *cobra.Command, w io.Writer, linkHandler func(string, str
 // If you have `cmd` with two subcmds, `sub` and `sub-third`,
 // and `sub` has a subcommand called `third`, it is undefined which
 // help output will be in the file `cmd-sub-third.1`.
-func GenReSTTree(cmd *cobra.Command, dir string) error {
+func GenReSTTree(cmd *coral.Command, dir string) error {
 	emptyStr := func(s string) string { return "" }
 	return GenReSTTreeCustom(cmd, dir, emptyStr, defaultLinkHandler)
 }
 
 // GenReSTTreeCustom is the the same as GenReSTTree, but
 // with custom filePrepender and linkHandler.
-func GenReSTTreeCustom(cmd *cobra.Command, dir string, filePrepender func(string) string, linkHandler func(string, string) string) error {
+func GenReSTTreeCustom(cmd *coral.Command, dir string, filePrepender func(string) string, linkHandler func(string, string) string) error {
 	for _, c := range cmd.Commands() {
 		if !c.IsAvailableCommand() || c.IsAdditionalHelpTopicCommand() {
 			continue

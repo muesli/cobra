@@ -5,7 +5,7 @@ import (
 	"os"
 	"text/template"
 
-	cobra "github.com/muesli/coral"
+	"github.com/muesli/coral"
 	"github.com/muesli/coral/cobra/tpl"
 )
 
@@ -50,7 +50,7 @@ func (p *Project) Create() error {
 
 	// create cmd/root.go
 	if _, err = os.Stat(fmt.Sprintf("%s/cmd", p.AbsolutePath)); os.IsNotExist(err) {
-		cobra.CheckErr(os.Mkdir(fmt.Sprintf("%s/cmd", p.AbsolutePath), 0751))
+		coral.CheckErr(os.Mkdir(fmt.Sprintf("%s/cmd", p.AbsolutePath), 0751))
 	}
 	rootFile, err := os.Create(fmt.Sprintf("%s/cmd/root.go", p.AbsolutePath))
 	if err != nil {

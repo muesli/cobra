@@ -19,7 +19,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	cobra "github.com/muesli/coral"
+	"github.com/muesli/coral"
 )
 
 var srcPaths []string
@@ -41,12 +41,12 @@ func init() {
 		}
 
 		out, err := exec.Command(goExecutable, "env", "GOPATH").Output()
-		cobra.CheckErr(err)
+		coral.CheckErr(err)
 
 		toolchainGoPath := strings.TrimSpace(string(out))
 		goPaths = filepath.SplitList(toolchainGoPath)
 		if len(goPaths) == 0 {
-			cobra.CheckErr("$GOPATH is not set")
+			coral.CheckErr("$GOPATH is not set")
 		}
 	}
 	srcPaths = make([]string, 0, len(goPaths))

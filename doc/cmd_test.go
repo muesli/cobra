@@ -4,10 +4,10 @@ import (
 	"strings"
 	"testing"
 
-	cobra "github.com/muesli/coral"
+	"github.com/muesli/coral"
 )
 
-func emptyRun(*cobra.Command, []string) {}
+func emptyRun(*coral.Command, []string) {}
 
 func init() {
 	rootCmd.PersistentFlags().StringP("rootflag", "r", "two", "")
@@ -30,14 +30,14 @@ func init() {
 	rootCmd.AddCommand(printCmd, echoCmd, dummyCmd)
 }
 
-var rootCmd = &cobra.Command{
+var rootCmd = &coral.Command{
 	Use:   "root",
 	Short: "Root short description",
 	Long:  "Root long description",
 	Run:   emptyRun,
 }
 
-var echoCmd = &cobra.Command{
+var echoCmd = &coral.Command{
 	Use:     "echo [string to echo]",
 	Aliases: []string{"say"},
 	Short:   "Echo anything to the screen",
@@ -45,14 +45,14 @@ var echoCmd = &cobra.Command{
 	Example: "Just run cobra-test echo",
 }
 
-var echoSubCmd = &cobra.Command{
+var echoSubCmd = &coral.Command{
 	Use:   "echosub [string to print]",
 	Short: "second sub command for echo",
 	Long:  "an absolutely utterly useless command for testing gendocs!.",
 	Run:   emptyRun,
 }
 
-var timesCmd = &cobra.Command{
+var timesCmd = &coral.Command{
 	Use:        "times [# times] [string to echo]",
 	SuggestFor: []string{"counts"},
 	Short:      "Echo anything to the screen more times",
@@ -60,20 +60,20 @@ var timesCmd = &cobra.Command{
 	Run:        emptyRun,
 }
 
-var deprecatedCmd = &cobra.Command{
+var deprecatedCmd = &coral.Command{
 	Use:        "deprecated [can't do anything here]",
 	Short:      "A command which is deprecated",
 	Long:       `an absolutely utterly useless command for testing deprecation!.`,
 	Deprecated: "Please use echo instead",
 }
 
-var printCmd = &cobra.Command{
+var printCmd = &coral.Command{
 	Use:   "print [string to print]",
 	Short: "Print anything to the screen",
 	Long:  `an absolutely utterly useless command for testing.`,
 }
 
-var dummyCmd = &cobra.Command{
+var dummyCmd = &coral.Command{
 	Use:   "dummy [action]",
 	Short: "Performs a dummy action",
 }
