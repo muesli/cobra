@@ -23,11 +23,11 @@ It's easy to use Coral as a drop-in replacement for Cobra in existing projects,
 just let `gofmt` do the heavy lifting for you:
 
 ```sh
- gofmt -w -r '"github.com/spf13/cobra" -> "github.com/muesli/coral"' .
- gofmt -w -r '"github.com/spf13/cobra/doc" -> "github.com/muesli/coral/doc"' .
- gofmt -w -r 'cobra -> coral' .
- go mod tidy
- ```
+gofmt -w -r '"github.com/spf13/cobra" -> "github.com/muesli/coral"' .
+gofmt -w -r '"github.com/spf13/cobra/doc" -> "github.com/muesli/coral/doc"' .
+gofmt -w -r 'cobra -> coral' .
+go mod tidy
+```
 
 As a result, you should typically see a lot of indirect dependencies removed
 from the project's `go.mod` and `go.sum` files.
@@ -38,13 +38,27 @@ Recent Cobra versions, v1.4.0 and onward, removed the dependency on Viper as wel
 You might switch back to Cobra using `gofmt`:
 
 ```sh
- gofmt -w -r '"github.com/muesli/coral" -> "github.com/spf13/cobra"' .
- gofmt -w -r '"github.com/muesli/coral/doc" -> "github.com/spf13/cobra/doc"' .
- gofmt -w -r 'coral -> cobra' .
- go mod tidy
- ```
+gofmt -w -r '"github.com/muesli/coral" -> "github.com/spf13/cobra"' .
+gofmt -w -r '"github.com/muesli/coral/doc" -> "github.com/spf13/cobra/doc"' .
+gofmt -w -r 'coral -> cobra' .
+
+go get -u github.com/spf13/cobra
+go mod tidy
+```
+
+If you use [mango][] too, also do this:
+
+```sh
+gofmt -w -r '"github.com/muesli/mango-coral" -> "github.com/muesli/mango-cobra"' .
+gofmt -w -r 'mcoral -> mcobra' .
+
+go get -u github.com/muesli/mango-cobra
+go mod tidy
+```
 
 More info: https://github.com/spf13/cobra/releases/tag/v1.4.0
+
+[mango]: https://github.com/muesli/mango
 
 # Upstream Cobra README
 
